@@ -30,6 +30,3 @@ As a result of completing Code 301, students will:
 - Follow agile software development practices during week-long sprints, including pair-programming, stand-ups, daily retrospectives, project management with Kanban boards, regular refactoring, and working in a shared code base.
 - Enroll in a Code 401 course or attain an entry-level website development job or internship by completing the course requirements.
 
-### Index of cheatsheets and resources
-
-- [Heroku Cheatsheet](/class-07/cheatsheets/heroku.md)
