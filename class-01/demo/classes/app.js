@@ -1,27 +1,71 @@
+// function Animal(name) {
+//   this.name = name;
+// }
+
+// Animal.prototype.hello = function () {
+//   return "Hi, I am " + this.name;
+// }
+
+// Animal.prototype.goodbye = function () {
+//   return "Adios"";
+// }
+
 class Animal {
-  constructor(props) {
-    this.name = props.name;
-    this.color = props.color;
-    this.age = props.age;
+
+  constructor(name) {
+    this.name = name;
+  }
+
+  hello() {
+    return "Hi, I am " + this.name;
+  }
+
+  goodbye() {
+    return "Adios";
   }
 }
 
-class Dog extends Animal {
-  constructor(props, type) {
-    super(props);
-    this.type = type;
+class Pet extends Animal {
+
+  constructor(name, vaccinated = false) {
+    super(name);
+    this.vaccinated = vaccinated;
   }
 
-  speak = () => {
-    console.log(`${this.name} barks!`);
+  hasShots() {
+    return this.vaccinated;
   }
 
-  goodBoi = () => {
-    console.log(`${this.name} is a good ${this.type}`)
-  }
 }
 
-const spot = new Dog({name:'Spot', color:['black', 'white'], age:10}, 'dalmation');
+class Dog extends Pet {
 
-spot.speak();
-spot.goodBoi();
+  beg() {
+    return super.hello() + ". Cock head and eyeball magic";
+  }
+
+}
+
+class Cat extends Pet {
+
+  hello() {
+    return super.hello() + " and I am your superior";
+  }
+
+}
+
+class GoldenRetriever extends Dog {
+
+}
+
+const lela = new Dog("Lela", true);
+
+console.log(lela.hello());
+console.log(lela.beg());
+
+const patchesOhoolihan = new Cat("Patches O'hoolihan")
+console.log(patchesOhoolihan.hello());
+
+console.log('Lela has shots', lela.hasShots());
+console.log('Patches has shots', patchesOhoolihan.hasShots());
+
