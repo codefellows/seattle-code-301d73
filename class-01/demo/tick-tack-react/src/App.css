@@ -1,0 +1,16 @@
+.App {
+  text-align: center;
+}
+.App .row {
+  display: flex;
+  justify-content: center;
+}
+
+.square {
+  background-color: lightgoldenrodyellow;
+  border: 2px solid brown;
+  margin: 1rem;
+  padding: 1rem;
+  font-size: larger;
+  font-weight: bold;
+}
