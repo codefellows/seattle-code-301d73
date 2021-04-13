@@ -147,7 +147,8 @@ class Student {
     this.age = age;
     this.hometown = hometown;
   }
-};
+  greeting = () => `Hi, my name is ${this.name}`;
+}
 
 let joe = new Student('Joe', 'Schmoe', 100);
 
@@ -165,14 +166,10 @@ console.log(joe.greeting());
 
 // TODOne: After viewing the previous console.log(), return the code to a working state.
 
-Student.greeting = () => `Hi, my name is ${this.name}`
-
 Student.courseName = () => 'This student is enrolled in Code 301.';
 
 // TODOne: Uncomment the following line of code to see the output in the browser console
 console.log(Student.courseName());
-
-
 
 // STEP 11
 // How do arrow functions affect constructor functions?
@@ -180,18 +177,20 @@ Student.prototype.scope = function () {
   console.log(this);
 };
 
-// TODO: Uncomment the following line of code to see the output in the browser console
-// console.log(joe.scope());
+// TODOne: Uncomment the following line of code to see the output in the browser console
+console.log(joe.scope());
 
 Student.prototype.scopeArrow = () => console.log(this);
 
-// TODO: Uncomment the following line of code to see the output in the browser console
-// console.log(joe.scopeArrow());
+// TODOne: Uncomment the following line of code to see the output in the browser console
+console.log(joe.scopeArrow());
 
-// TODO: Write a COMMENT below to answer the following questions.
+// TODOne: Write a COMMENT below to answer the following questions.
 // 1. What is "this" when joe.scope() is invoked?
-//
+// When joe.scope is invoked "this" repersents the current instance of the object joe.
+// 
 // 2. What is "this" when joe.scopeArrow() is invoked?
+// Arrow functions don't rebind "this". It will either return the global object or 'undefined'.
 //
 // 3. Explain why "this" is different when an arrow function is used.
-//
+//  Arrow functions don't rebind 'this'.
