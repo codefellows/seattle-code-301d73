@@ -238,3 +238,4 @@ console.log(joe.scopeArrow());
 // Arrow functions do not have theri own bindings to this or super and should not be used as methods
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions 
+// messed up my branches sorry
