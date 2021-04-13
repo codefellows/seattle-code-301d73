@@ -1,7 +1,7 @@
 // function Animal(name) {
 //   this.name = name;
 // }
-
+//small change
 // Animal.prototype.hello = function () {
 //   return "Hi, I am " + this.name;
 // }
