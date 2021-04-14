@@ -1,8 +1,6 @@
 import React from 'react';
 import Child from './child.js';
 import mom from './assets/mom.jpg';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 
@@ -26,8 +24,8 @@ class Parent extends React.Component {
 
     return (
       <CardGroup>
-        <Card style={{ width: '18rem' }}>
-          <Card.Img variant="top" src={mom} />
+        <Card>
+          <Card.Img variant="bottom" src={mom} />
           <Card.Body>
             <Card.Title>Parent</Card.Title>
             <Card.Text>
