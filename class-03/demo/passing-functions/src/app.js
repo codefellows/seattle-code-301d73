@@ -1,7 +1,7 @@
 import React from 'react';
 import Parent from './parent.js';
 import Header from './header';
-import Container from 'react-bootstrap/Container';
+import Container from 'react-bootstrap/Container'; //imports all the contents of Container
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import ModalExample from './modal-example'
@@ -17,7 +17,7 @@ class App extends React.Component {
   }
 
   handleShow = () => {
-    this.setState({showModal: true})
+    this.setState({showModal: true}); //this is an alert
   }
 
   handleClose = () => {
