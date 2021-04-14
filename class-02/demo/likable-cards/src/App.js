@@ -1,19 +1,27 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+//import components from bootstrap
 import { Container, CardColumns, Card, Navbar } from 'react-bootstrap'
 import { Component } from 'react'
+//import items from a json file
 import items from './data.json'
 
 function App() {
 
   return (
     <Container fluid>
-      <Navbar bg="dark" variant="dark">
-        <Navbar.Brand href="#home">Likable Cards</Navbar.Brand>
-      </Navbar>
+
+    //component from bootstrap
+    <Navbar bg="dark" variant="dark">
+      <Navbar.Brand href="#home">
+        Horned beasts
+      </Navbar.Brand>
+    </Navbar>
 
       <CardColumns>
 
+        {/*uses the json data to create a Component*/}
+        {/*what does map do?*/}
         {items.map(item => (
           <LikeableCard
             title={item.title}
