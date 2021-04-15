@@ -1,5 +1,5 @@
 function Header() {
-  return <h1>Yowza!!!</h1>;
+  return <h1>Yowza!</h1>;
 
 }
 
