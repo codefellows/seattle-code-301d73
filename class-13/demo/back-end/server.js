@@ -5,67 +5,105 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3002;
 
 const mongoose = require('mongoose');
 // making a database called cats
-mongoose.connect('mongodb://localhost:27017/cats', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost:27017/cats', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', function () {
   console.log('Mongoose is connected')
 });
 
-const CatParent = require('./models/Users');
 
-const bob = new CatParent({ name: 'bob', cats: [{name:'fluffy'}, {name:'joe'}]});
-// console.log({bob})
-bob.save();
+const UserModel = require('./models/Users.js');
 
-const sue = new CatParent({ name: 'sue', cats: [{name:'goose'}, {name:'malaki'}, {name:'sam'}]});
-sue.save();
+// const rinat = new UserModel({
+//   name: 'Rinat',
+//   cats: [
+//     { name: 'Richard' },
+//   ]
+// });
 
-app.get('/cats', getAllCats);
-app.post('/cats', createACat);
-app.delete('/cats/:index', deleteACat);
+// rinat.save();
 
-function getAllCats(request, response) {
-  const name = request.query.name;
-  console.log({name});
-  CatParent.find({name}, (err, person) => {
-    if(err) return console.error(err);
-    console.log({person})
-    
-    response.send(person[0].cats);
-  })
-}
+// console.log({ rinat });
+// console.log(rinat.cats[0].name);
 
-function createACat(request, response) {
-  const { name, newCat } = request.body;
-  console.log(name, newCat);
-  const cat = { name: newCat };
-  
-  CatParent.findOne({name}, (err, user) => {
-    user.cats.push(cat);
-    user.save();
-    response.send(user.cats);
-  })
-}
+app.get('/cats', async (request, response) => {
 
-function deleteACat(request, response) {
-  const index = request.params.index;
-  const name = request.query.name;
-  console.log({index, name})
-  CatParent.findOne({ name }, (err, user) => {
-    const newCats = user.cats.filter((cat, idx) => idx !== index );
-    user.cats = newCats;
-    user.save();
-    
-  })
-}
+  const { name } = request.query;
+  // equivalent to below
+  // const name = request.query.name;
+
+  await UserModel.find({ name }, (err, users) => {
+    if (users.length) {
+      response.send(users[0].cats);
+    } else {
+      response.send('no users with that name :(');
+    }
+  });
+
+});
+
+app.post('/cats', async (request, response) => {
+
+  const { catName } = request.body;
+
+  const { name } = request.query;
+
+  await UserModel.find({ name }, (err, users) => {
+
+    if (users.length) {
+
+      const user = users[0];
+
+      const currentCats = user.cats;
+
+      const newCat = { name: catName };
+
+      currentCats.push(newCat);
+
+      user.save();
+
+      response.send(user.cats);
+    } else {
+      response.send('no users with that name :(');
+    }
+  });
+});
+
+app.delete('/cats/:index', async (request, response) => {
+
+  const { name } = request.query;
+
+  const index = Number(request.params.index);
+
+  await UserModel.find({ name }, (err, users) => {
+
+    if (users.length) {
+
+      const user = users[0];
+
+      const currentCats = user.cats;
+
+      currentCats.splice(index, 1);
+
+      user.save();
+
+      response.send('deleted');
+
+    } else {
+      response.send('no user found');
+    }
+
+  });
+
+});
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
 

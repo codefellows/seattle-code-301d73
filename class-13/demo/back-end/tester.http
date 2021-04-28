@@ -1,0 +1,22 @@
+http://localhost:3002/cats?name=Rinat
+
+###
+
+http://localhost:3002/cats?name=JB
+
+###
+
+http://localhost:3002/unknown
+
+###
+
+POST http://localhost:3002/cats?name=Rinat HTTP/1.1
+content-type: application/json
+
+{
+    "catName": "Elizabeth"
+}
+
+### 
+
+DELETE http://localhost:3002/cats/1?name=Rinat HTTP/1.1
