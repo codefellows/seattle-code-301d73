@@ -1,14 +1,14 @@
 'use strict';
 const mongoose = require('mongoose');
 
-const catSchema = new mongoose.Schema({
-  name: {type: String}
+const giftSchema = new mongoose.Schema({
+  name: {type: String},
+  description: {type: String}
 });
 
-const kittySchema = new mongoose.Schema({
-  name: {type: String, required: true},
-  cats: [catSchema]
+const birthdayPerson = new mongoose.Schema({
+  email: {type: String, required: true},
+  gifts: [giftSchema]
 });
 
-// console.log({catSchema})
-module.exports = mongoose.model('kittyCats', kittySchema);
+module.exports = mongoose.model('giftRegistry', birthdayPerson);
