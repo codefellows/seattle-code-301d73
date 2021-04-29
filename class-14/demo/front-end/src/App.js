@@ -3,9 +3,10 @@ import axios from 'axios';
 import Gifts from './Gifts';
 import Form from './Form';
 import AddAGift from './AddAGift';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       displayAddAGift: false,
@@ -20,10 +21,10 @@ class App extends React.Component {
     e.preventDefault();
     const SERVER = 'http://localhost:3001';
     try {
-      const gifts = await axios.get(`${SERVER}/gift`, {params: { email: this.state.birthdayPersonEmail }});
+      const gifts = await axios.get(`${SERVER}/gift`, { params: { email: this.state.birthdayPersonEmail } });
       this.setState({ gifts: gifts.data });
 
-    } catch(error){
+    } catch (error) {
       console.log(error);
     }
   }
@@ -34,7 +35,7 @@ class App extends React.Component {
   createGift = async (e) => {
     e.preventDefault();
     const API = 'http://localhost:3001';
-    const gifts = await axios.post(`${API}/gift`, {newGift: {name: this.state.giftName, description: this.state.giftDescription}, email: this.state.birthdayPersonEmail});
+    const gifts = await axios.post(`${API}/gift`, { newGift: { name: this.state.giftName, description: this.state.giftDescription }, email: this.state.birthdayPersonEmail });
     const allGiftsArray = gifts.data;
     this.setState({ gifts: allGiftsArray, displayAddAGift: false });
   }
@@ -45,22 +46,22 @@ class App extends React.Component {
   updateGifts = (gifts) => this.setState({ gifts });
 
   render() {
-    return(
+    return (
       <>
-        <Gifts 
-          gifts={this.state.gifts} 
+        <Gifts
+          gifts={this.state.gifts}
           email={this.state.birthdayPersonEmail}
           removeAGift={this.removeAGift}
           updateGifts={this.updateGifts}
         />
-        <Form 
-          updateEmail={this.updateEmail} 
+        <Form
+          updateEmail={this.updateEmail}
           getMyGifts={this.getMyGifts}
         />
 
         <button onClick={() => this.setState({ displayAddAGift: true })}>Add a Gift</button>
 
-        {this.state.displayAddAGift && 
+        {this.state.displayAddAGift &&
           <AddAGift
             addGiftName={this.addGiftName}
             addGiftDescription={this.addGiftDescription}
