@@ -1,56 +1,66 @@
-'use strict';
-
-const User = require('../models/Users');
-// User.collection.drop();  
-
 const Gift = {};
 
-Gift.getAllGifts = async function(request, response) {
+const User = require('../models/Users');
+
+
+Gift.getAllGifts = async (request, response) => {
+  // response.send('request and response for 500 dollars');
   const email = request.query.email;
-  await User.find({ email }, (err, person) => {
-    if(err) console.error(err);
-    if(!person.length){
-      person[0] = { email, gifts: [] }
-      const newUser = new User(person[0])
-      newUser.save();
+
+  await User.find({ email }, (err, users) => {
+    if (err) console.error(err);
+    if (!users.length) {
+      response.send('user not found');
+    } else {
+      const user = users[0];
+      response.send(user.gifts);
     }
-    response.send(person[0].gifts);
   });
 }
 
-Gift.addAGift = async function(request, response) {
-  const {newGift, email} = request.body;
-  await User.find({ email }, (err, person) => {
-    if(err) console.error(err);
-    person[0].gifts.push(newGift);
-    person[0].save();
-    response.send(person[0].gifts);
+Gift.createGift = async (request, response) => {
+  const { newGift, email } = request.body;
+  await User.find({ email }, (err, users) => {
+    if (err) console.error(err);
+    if (!users.length) {
+      response.send('no user found');
+      return;
+    }
+    const user = users[0];
+    user.gifts.push(newGift);
+    user.save();
+    response.send(user.gifts);
   })
 }
 
-Gift.deleteAGift = async function(request, response) {
+Gift.deleteGift = async (request, response) => {
   const index = Number(request.params.index);
   const email = request.query.email;
-  await User.find({ email }, (err, person) => {
-    if(err) console.error(err);
-    const newGiftArray = person[0].gifts.filter((gift, i) => i !== index);
-    person[0].gifts = newGiftArray;
-    person[0].save();
+
+  await User.find({ email }, (err, users) => {
+    if (err) console.error(err);
+    const user = users[0];
+    const newGiftArray = user.gifts.filter((_, i) => i !== index);
+    user.gifts = newGiftArray;
+    user.save();
     response.send('success!');
   })
 }
 
-Gift.updateAGift = async function(request, response) {
+Gift.updateGift = async (request, response) => {
   const index = Number(request.params.index);
   const newGift = request.body.newGift;
   const email = request.body.email;
-  console.log({index, newGift, email})
-  await User.find({ email }, (err, person) => {
-    if(err) console.error(err);
-    person[0].gifts.splice(index, 1, newGift);
-    person[0].save();
-    response.send(person[0].gifts);
-  })
-}
 
+  await User.find({ email }, (err, users) => {
+
+    if (err) console.error(err);
+
+    const user = users[0];
+    user.gifts.splice(index, 1, newGift);
+    user.save();
+    response.send(user.gifts);
+
+  });
+}
 module.exports = Gift;
