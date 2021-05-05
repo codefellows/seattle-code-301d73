@@ -3,8 +3,8 @@ import React from 'react';
 import axios from 'axios';
 
 import { Navbar, Container, Row, Col } from 'react-bootstrap';
-import Form from './components/add-item.js';
-import Items from './components/items.js';
+import Form from './components/Add-item.js';
+import Items from './components/Items.js';
 
 const API_SERVER = process.env.REACT_APP_API;
 
