@@ -26,7 +26,7 @@ db.once('open', () => console.log('Mongoose connected'));
 
 /* routes
 refer to routes.http for usage examples / manual tests
-requires 'REST Client' extension
+requires 'REST Client' extension (humao.rest-client)
 */
 app.post('/snacks', SnackHandlers.create);
 app.get('/snacks', SnackHandlers.getAll);

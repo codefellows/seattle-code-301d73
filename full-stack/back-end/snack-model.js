@@ -7,6 +7,6 @@ const snackSchema = new mongoose.Schema({
 
 });
 
-const SnackModel = mongoose.model('snacks', snackSchema);
+const SnackModel = mongoose.model('snack', snackSchema);
 
 module.exports = SnackModel;
