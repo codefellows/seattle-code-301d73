@@ -19,7 +19,7 @@ class App extends React.Component {
     this.getSnacks();
   }
 
-  handleCreateSnack = async (snack) => {
+  handleSnackCreate = async (snack) => {
     await axios.post(`${API}/snacks`, snack);
     this.setState({ displayAddASnack: false });
     this.getSnacks();
@@ -36,17 +36,17 @@ class App extends React.Component {
     }
   }
 
-  handleUpdateSnack = async snack => {
+  handleSnackUpdate = async snack => {
     await axios.put(`${API}/snacks/${snack._id}`, snack);
     this.getSnacks();
   }
 
-  handleDeleteSnack = async id => {
+  handleSnackDelete = async id => {
     await axios.delete(`${API}/snacks/${id}`);
     this.getSnacks();
   }
 
-  handleDisplayAddASnack = () => {
+  handleAddASnackDisplay = () => {
     this.setState({ displayAddASnack: true });
   }
 
@@ -55,16 +55,16 @@ class App extends React.Component {
       <>
         <SnacksList
           snacks={this.state.snacks}
-          onDelete={this.handleDeleteSnack}
-          onUpdate={this.handleUpdateSnack}
+          onDelete={this.handleSnackDelete}
+          onUpdate={this.handleSnackUpdate}
         />
 
-        <button onClick={this.handleDisplayAddASnack}>
+        <button onClick={this.handleAddASnackDisplay}>
           Add a Snack
         </button>
 
         {this.state.displayAddASnack &&
-          <AddASnack onCreate={this.handleCreateSnack} />
+          <AddASnack onCreate={this.handleSnackCreate} />
         }
       </>
     )
