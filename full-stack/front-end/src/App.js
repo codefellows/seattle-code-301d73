@@ -1,72 +1,70 @@
 import React from 'react';
 import axios from 'axios';
-import Gifts from './Gifts';
-import Form from './Form';
-import AddAGift from './AddAGift';
+import SnacksList from './SnacksList';
+import AddASnack from './AddASnack';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+const API = 'http://localhost:3001';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      displayAddAGift: false,
-      gifts: [],
-      birthdayPersonEmail: '',
-      giftName: '',
-      giftDescription: ''
+      displayAddASnack: false,
+      snacks: [],
     }
   }
 
-  getMyGifts = async (e) => {
-    e.preventDefault();
-    const SERVER = 'http://localhost:3001';
+  componentDidMount() {
+    this.getSnacks();
+  }
+
+  handleCreateSnack = async (snack) => {
+    await axios.post(`${API}/snacks`, snack);
+    this.setState({ displayAddASnack: false });
+    this.getSnacks();
+
+  }
+
+  getSnacks = async () => {
     try {
-      const gifts = await axios.get(`${SERVER}/gift`, { params: { email: this.state.birthdayPersonEmail } });
-      this.setState({ gifts: gifts.data });
+      const response = await axios.get(`${API}/snacks`);
+      this.setState({ snacks: response.data });
 
     } catch (error) {
       console.log(error);
     }
   }
 
-  addGiftName = (giftName) => this.setState({ giftName });
-  addGiftDescription = (giftDescription) => this.setState({ giftDescription });
-
-  createGift = async (e) => {
-    e.preventDefault();
-    const API = 'http://localhost:3001';
-    const gifts = await axios.post(`${API}/gift`, { newGift: { name: this.state.giftName, description: this.state.giftDescription }, email: this.state.birthdayPersonEmail });
-    const allGiftsArray = gifts.data;
-    this.setState({ gifts: allGiftsArray, displayAddAGift: false });
+  handleUpdateSnack = async snack => {
+    await axios.put(`${API}/snacks/${snack._id}`, snack);
+    this.getSnacks();
   }
 
-  updateEmail = (email) => this.setState({ birthdayPersonEmail: email });
+  handleDeleteSnack = async id => {
+    await axios.delete(`${API}/snacks/${id}`);
+    this.getSnacks();
+  }
 
-  removeAGift = (arrayOfGifts) => this.setState({ gifts: arrayOfGifts });
-  updateGifts = (gifts) => this.setState({ gifts });
+  handleDisplayAddASnack = () => {
+    this.setState({ displayAddASnack: true });
+  }
 
   render() {
     return (
       <>
-        <Gifts
-          gifts={this.state.gifts}
-          email={this.state.birthdayPersonEmail}
-          removeAGift={this.removeAGift}
-          updateGifts={this.updateGifts}
-        />
-        <Form
-          updateEmail={this.updateEmail}
-          getMyGifts={this.getMyGifts}
+        <SnacksList
+          snacks={this.state.snacks}
+          onDelete={this.handleDeleteSnack}
+          onUpdate={this.handleUpdateSnack}
         />
 
-        <button onClick={() => this.setState({ displayAddAGift: true })}>Add a Gift</button>
+        <button onClick={this.handleDisplayAddASnack}>
+          Add a Snack
+        </button>
 
-        {this.state.displayAddAGift &&
-          <AddAGift
-            addGiftName={this.addGiftName}
-            addGiftDescription={this.addGiftDescription}
-            createGift={this.createGift}
-          />
+        {this.state.displayAddASnack &&
+          <AddASnack onCreate={this.handleCreateSnack} />
         }
       </>
     )
